@@ -1,0 +1,32 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Activity {
+  id             Int       @id @default(autoincrement())
+  title          String
+  email          String
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  todos          Todo[]
+
+  @@map("activity")
+}
+
+model Todo {
+  id                Int       @id @default(autoincrement())
+  title             String
+  is_active         Boolean
+  priority          String    @default("Very High")
+  activity_group_id Int
+  activity          Activity  @relation(fields: [activity_group_id], references: [id])
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@map("todo")
+}
