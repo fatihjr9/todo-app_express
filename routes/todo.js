@@ -6,22 +6,23 @@ const router = express.Router();
 
 export default router;
 
-// Get todos by activity_group_id
 router.get("/", async (req, res) => {
   try {
     const activityGroupId = parseInt(req.query.activity_group_id);
 
-    if (!activityGroupId) {
-      return res.status(400).json({
-        status: "Error",
-        message: "activity_group_id is required",
+    if (activityGroupId) {
+      const todos = await prisma.todo.findMany({
+        where: { activity_group_id: activityGroupId },
+      });
+
+      return res.json({
+        status: "Success",
+        message: "Success",
+        data: todos,
       });
     }
 
-    const todos = await prisma.todo.findMany({
-      where: { activity_group_id: activityGroupId },
-    });
-
+    const todos = await prisma.todo.findMany();
     return res.json({
       status: "Success",
       message: "Success",
@@ -30,22 +31,6 @@ router.get("/", async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       status: "Error",
-      message: error.message,
-    });
-  }
-});
-// Get all todos
-router.get("/", async (req, res) => {
-  try {
-    const todo = await prisma.todo.findMany();
-    res.json({
-      status: "success",
-      message: "success",
-      data: todo,
-    });
-  } catch (error) {
-    res.status(500).json({
-      status: "error",
       message: error.message,
     });
   }
