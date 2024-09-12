@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   app:
-    build: .
+    image: ghcr.io/fatihjr9/todo-api_express:latest
     ports:
       - "3030:3030"
     environment:
