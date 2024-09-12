@@ -8,17 +8,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Activity {
-  id             Int       @id @default(autoincrement())
-  title          String
-  email          String
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
-  todos          Todo[]
-
-  @@map("activity")
-}
-
 model Todo {
   id                Int       @id @default(autoincrement())
   title             String
@@ -29,5 +18,15 @@ model Todo {
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
 
-  @@map("todo")
+  @@map("todos")
+}
+
+model Activity {
+  id          Int     @id @default(autoincrement())
+  title       String
+  todos       Todo[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("activities")
 }
