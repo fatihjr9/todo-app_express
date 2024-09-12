@@ -1,13 +1,16 @@
 services:
   app:
-    image: ghcr.io/fatihjr9/todo-api_express:latest
+    container_name: todoapiexp
+    image: todoapiexp
+    build:
+      context: ./todoapiexp
+      dockerfile: Dockerfile
     ports:
       - "3030:3030"
     environment:
-      DATABASE_URL: "mysql://root:@db:3306/exp_dc"
-    depends_on:
-      - db
+      DATABASE_URL: "mysql://root:@localhost:3306/exp_dc"
   db:
+    container_name: db
     image: mysql:5.7
     restart: always
     environment:
